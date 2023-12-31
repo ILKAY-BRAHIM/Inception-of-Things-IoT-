@@ -1,40 +1,46 @@
+# define varaible
+
+MASTER_NODE_IP = '192.168.56.110'
+MASTER_NODE_NAME = 'Server'
+WORKER_NODE_IP = '192.168.56.111'
+WORKER_NODE_NAME = 'ServerWorker'
+PROVIDER = 'virtualbox'
+HOST_PATH_SYN = './conf'
+GEST_PATH_SYN = '/vagrant'
+NETWORK_TYPE = 'private_network'
+
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/trusty64"
-  config.vm.boot_timeout = 600
-  config.vm.synced_folder ".", "/vagrant", type: "nfs"
-  # config.cache.scope = :box
-  # config.vm.provision "shell" do |ssh|
-  #   ssh_pub_key= File.readlines("/home/bchifour/.ssh/id_rsa.pub").first.strip
-  #   ssh.inline = <<-SHELL
-  #   echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
-  #   SHELL
-  # end
 
+  # base box to use in the both node
+  config.vm.box = "generic/alpine312"
 
-  config.vm.define "Server" do |machin_1|
-    machin_1.vm.hostname = "Server"
-    machin_1.vm.network "private_network", ip: "192.168.56.110"
-    # machin_1.vm.boot_timeout = 0
-    machin_1.vm.provider "virtualbox" do |vb|
-      vb.memory = "512"
+  # define master node in claster
+  config.vm.define MASTER_NODE_NAME do |master|
+    master.vm.hostname = MASTER_NODE_NAME
+    master.vm.network NETWORK_TYPE, ip: MASTER_NODE_IP
+    master.vm.synced_folder HOST_PATH_SYN, GEST_PATH_SYN, type:PROVIDER
+    master.vm.provider PROVIDER do |vb|
+      vb.memory = "1024"
       vb.gui = false
-      vb.linked_clone = true
+      # vb.linked_clone = true
+      vb.name = MASTER_NODE_NAME
       vb.cpus = 1
     end
-    # machin_1.vm.provision "shell" path:
+    master.vm.provision "shell", privileged: true, path: "scripts/master.sh"
   end
 
-  config.vm.define "ServerWorker" do |machin_2|
-    machin_2.vm.hostname = "ServerWorker"
-    machin_2.vm.network "private_network", ip: "192.168.56.111"
-    # machin_2.vm.boot_timeout = 0
-    machin_2.vm.provider "virtualbox" do |vb|
-      vb.memory = "512"
-      vb.linked_clone = true
+  # define worker node in claster
+  config.vm.define WORKER_NODE_NAME do |worker|
+    worker.vm.hostname = WORKER_NODE_NAME
+    worker.vm.network NETWORK_TYPE, ip: WORKER_NODE_IP
+    worker.vm.synced_folder HOST_PATH_SYN, GEST_PATH_SYN, type:PROVIDER
+    worker.vm.provider PROVIDER do |vb|
+      vb.memory = "1024"
+      # vb.linked_clone = true
       vb.gui = false
+      vb.name = WORKER_NODE_NAME
       vb.cpus = 1
     end
-    # machin_1.vm.provision "shell" path:
+    worker.vm.provision "shell", privileged: true, path: "scripts/worker.sh"
   end
-
 end
