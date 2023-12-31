@@ -1,3 +1,4 @@
 .vagrant
 server_token
 k3s.yaml
+node-token
