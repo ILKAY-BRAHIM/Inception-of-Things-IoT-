@@ -1,7 +1,7 @@
 # define varaible
 
 MASTER_NODE_IP = '192.168.56.110'
-MASTER_NODE_NAME = 'Server'
+MASTER_NODE_NAME = 'Master'
 PROVIDER = 'virtualbox'
 HOST_PATH_SYN = './conf'
 GEST_PATH_SYN = '/vagrant'
@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
     master.vm.network NETWORK_TYPE, ip: MASTER_NODE_IP
     master.vm.synced_folder HOST_PATH_SYN, GEST_PATH_SYN, type:PROVIDER
     master.vm.provider PROVIDER do |vb|
-      vb.memory = "2048"
+      vb.memory = "1024"
       vb.gui = false
       # vb.linked_clone = true
       vb.name = MASTER_NODE_NAME
