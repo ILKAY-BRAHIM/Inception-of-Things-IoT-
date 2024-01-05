@@ -9,7 +9,7 @@ NETWORK_TYPE = 'private_network'
 
 Vagrant.configure("2") do |config|
 
-  # base box to use in the both node
+  # base box to use in node
   config.vm.box = "generic/alpine312"
 
   # define master node in claster
