@@ -1,22 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: default-backend
   labels:
-    app: nginx
+    app: default-backend
 spec:
-  revisionHistoryLimit: 0
   replicas: 3
   selector:
     matchLabels:
-      app: nginx
+      app: default-backend
   template:
     metadata:
       labels:
-        app: nginx
+        app: default-backend
     spec:
       containers:
-      - name: nginx
-        image: nginx:1.14.2
+      - name: default-backend
+        image: hashicorp/http-echo
+        args:
+          - "-text=Hey, This is the default-backend service"
         ports:
-        - containerPort: 80
+        - containerPort: 5678
+        env:
+         - name: app
+           value: "default-backend"
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: default-backend
+spec:
+  selector:
+    app: default-backend
+  ports:
+    - port: 8080
+      targetPort: 5678

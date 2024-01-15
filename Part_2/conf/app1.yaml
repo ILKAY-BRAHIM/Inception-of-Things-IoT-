@@ -8,7 +8,7 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8080
+    targetPort: 80
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -27,10 +27,7 @@ spec:
         app: app1
     spec:
       containers:
-        - name: hello-kubernetes
-          image: paulbouwer/hello-kubernetes:1.10
-          env:
-          - name: MESSAGE
-            value: "Hello from app1."
+        - name: nginx-container
+          image: nginx:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 80
