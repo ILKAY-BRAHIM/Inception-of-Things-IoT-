@@ -4,7 +4,7 @@ metadata:
   name: app1-ingress
 spec:
   rules:
-  - host: app1.com
+  - host: argocd1.com
     http:
       paths:
       - path: /
