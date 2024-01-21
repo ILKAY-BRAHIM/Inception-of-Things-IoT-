@@ -5,7 +5,7 @@ metadata:
   labels:
     app: will
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
       app: will
   ports:
