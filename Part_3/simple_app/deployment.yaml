@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app1
+  name: will-app-deployment
   labels:
-    app: app1
+    app: will
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app1
+      app: will
   template:
     metadata:
       labels:
-        app: app1
+        app: will
     spec:
       containers:
-        - name: nginx-container
-          image: nginx:latest
-          ports:
-            - containerPort: 8085
+      - name: will
+        image: wil42/playground:v1
+        ports:
+        - containerPort: 8888
