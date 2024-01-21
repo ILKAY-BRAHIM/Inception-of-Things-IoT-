@@ -8,6 +8,14 @@ argocd login localhost:8080 --username admin --password $ARGOCD_PASSWORD --insec
 #sewitch to argocd namespace
 kubectl config set-context --current --namespace=argocd
 # Create a directory app
-argocd app create my_app --repo https://github.com/ILKAY-BRAHIM/Inception-of-Things-IoT-.git --path '/home/brahim/Desktop/Inception-of-Things-IoT-/Part_3/simple_app' --dest-namespace dev --dest-server https://kubernetes.default.svc --grpc-web
+argocd app create app --repo https://github.com/ILKAY-BRAHIM/Inception-of-Things-IoT-.git --path 'Part_3/simple_app' --dest-namespace dev --dest-server https://kubernetes.default.svc --grpc-web
 #protect this script from running while will app already exists
 #....
+#View created app before sync and configuration
+argocd app get app --grpc-web
+#Sync the app and configure for automated synchronization
+argocd app sync app --grpc-web
+#??
+argocd app set app --sync-policy automated --grpc-web
+#if empty repo in github enabling auto prune to remove all in argocd
+argocd app set app --auto-prune --allow-empty --grpc-web
