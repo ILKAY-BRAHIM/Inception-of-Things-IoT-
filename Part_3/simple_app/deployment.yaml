@@ -1,24 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app2
+  name: app1
   labels:
-    app: app2
+    app: app1
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: app2
+      app: app1
   template:
     metadata:
       labels:
-        app: app2
+        app: app1
     spec:
       containers:
-        - name: hello-kubernetes
-          image: paulbouwer/hello-kubernetes:1.10
-          env:
-          - name: MESSAGE
-            value: "Hello from app2."
+        - name: nginx-container
+          image: nginx:latest
           ports:
             - containerPort: 80
