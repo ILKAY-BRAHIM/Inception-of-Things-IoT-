@@ -15,4 +15,4 @@ spec:
           service:
             name: will-app-service
             port:
-              number: 8888
+              number: 8887
