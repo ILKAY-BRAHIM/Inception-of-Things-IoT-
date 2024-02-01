@@ -1,0 +1,29 @@
+# define varaible
+
+MASTER_NODE_IP = '192.168.56.110'
+MASTER_NODE_NAME = 'MMaster'
+PROVIDER = 'virtualbox'
+HOST_PATH_SYN = '../../ARGOCD/script'
+GEST_PATH_SYN = '/vagrant'
+NETWORK_TYPE = 'private_network'
+
+Vagrant.configure("2") do |config|
+
+  # base box to use in node
+  config.vm.box = "bento/debian-11"
+
+  # define master node in claster
+  config.vm.define MASTER_NODE_NAME do |master|
+    master.vm.hostname = MASTER_NODE_NAME
+    master.vm.network NETWORK_TYPE, ip: MASTER_NODE_IP
+    master.vm.synced_folder HOST_PATH_SYN, GEST_PATH_SYN, type:PROVIDER
+    master.vm.provider PROVIDER do |vb|
+      vb.memory = "2048"
+      vb.gui = false
+      # vb.linked_clone = true
+      vb.name = MASTER_NODE_NAME
+      vb.cpus = 1
+    end
+    # master.vm.provision "shell", privileged: true, path: "scripts/init.sh"
+  end
+end
