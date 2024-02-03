@@ -10,5 +10,5 @@ spec:
       app: will
   ports:
     - protocol: TCP
-      port: 888
+      port: 8888
       targetPort: 80
