@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: will
-        image: nginx:latest
+        image: wil42/playground:v1
         ports:
-        - containerPort: 80
+        - containerPort: 8888
